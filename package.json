@@ -1,0 +1,25 @@
+{
+  "name": "protea-mvp",
+  "version": "1.0.0",
+  "description": "MVP to display core functions and user flows in Protea",
+  "main": "truffle.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ProteaNetwork/Protea-MVP.git"
+  },
+  "author": "Ryan Noble",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/ProteaNetwork/Protea-MVP/issues"
+  },
+  "homepage": "https://github.com/ProteaNetwork/Protea-MVP#readme",
+  "devDependencies": {
+    "zeppelin-solidity": "^1.7.0"
+  }
+}

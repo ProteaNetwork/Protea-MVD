@@ -1,2 +1,2 @@
-# MVP
-A simple MVP to display user flow.
+# Protea MVP
+MVP to display core functions and user flows in Protea
