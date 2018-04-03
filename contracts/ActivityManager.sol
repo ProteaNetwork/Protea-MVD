@@ -1,4 +1,4 @@
-pragma solidity 0.4.21;
+pragma solidity ^ 0.4.21;
 /** 
  * The Activity manager contract serves as a factory and reward system.
  * This contract facilitates the creation of Events for staked RSVP as well as the community reward payout based on participation
