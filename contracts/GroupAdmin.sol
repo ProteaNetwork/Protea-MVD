@@ -39,7 +39,7 @@ contract GroupAdmin is Ownable {
 
   function getAdmins() view public returns(address[]) {
     address[] memory adminsList = new address[](admins.length + 1);
-    for(uint i = 0; i < admins.length; i++){
+    for (uint i = 0; i < admins.length; i++) {
       adminsList[i] = admins[i];
     }
     adminsList[admins.length] = owner;

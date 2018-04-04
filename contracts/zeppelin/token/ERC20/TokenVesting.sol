@@ -1,4 +1,4 @@
-pragma solidity ^0.4.18;
+pragma solidity ^ 0.4 .18;
 
 import "./ERC20Basic.sol";
 import "./SafeERC20.sol";
@@ -13,8 +13,10 @@ import "../../math/SafeMath.sol";
  * owner.
  */
 contract TokenVesting is Ownable {
-  using SafeMath for uint256;
-  using SafeERC20 for ERC20Basic;
+  using SafeMath
+  for uint256;
+  using SafeERC20
+  for ERC20Basic;
 
   event Released(uint256 amount);
   event Revoked();
@@ -28,8 +30,8 @@ contract TokenVesting is Ownable {
 
   bool public revocable;
 
-  mapping (address => uint256) public released;
-  mapping (address => bool) public revoked;
+  mapping(address => uint256) public released;
+  mapping(address => bool) public revoked;
 
   /**
    * @dev Creates a vesting contract that vests its balance of any ERC20 token to the
@@ -64,7 +66,7 @@ contract TokenVesting is Ownable {
 
     token.safeTransfer(beneficiary, unreleased);
 
-    Released(unreleased);
+    emit Released(unreleased);
   }
 
   /**
@@ -85,14 +87,14 @@ contract TokenVesting is Ownable {
 
     token.safeTransfer(owner, refund);
 
-    Revoked();
+    emit Revoked();
   }
 
   /**
    * @dev Calculates the amount that has already vested but hasn't been released yet.
    * @param token ERC20 token which is being vested
    */
-  function releasableAmount(ERC20Basic token) public view returns (uint256) {
+  function releasableAmount(ERC20Basic token) public view returns(uint256) {
     return vestedAmount(token).sub(released[token]);
   }
 
@@ -100,7 +102,7 @@ contract TokenVesting is Ownable {
    * @dev Calculates the amount that has already vested.
    * @param token ERC20 token which is being vested
    */
-  function vestedAmount(ERC20Basic token) public view returns (uint256) {
+  function vestedAmount(ERC20Basic token) public view returns(uint256) {
     uint256 currentBalance = token.balanceOf(this);
     uint256 totalBalance = currentBalance.add(released[token]);
 

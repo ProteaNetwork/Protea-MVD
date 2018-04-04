@@ -91,12 +91,12 @@ contract Event is Destructible, GroupAdmin {
 
     function registerWithEncryption(string _participant, string _encrypted) external payable onlyActive {
         registerInternal(_participant);
-        RegisterEvent(msg.sender, _participant, _encrypted);
+        emit RegisterEvent(msg.sender, _participant, _encrypted);
     }
 
     function register(string _participant) external payable onlyActive {
         registerInternal(_participant);
-        RegisterEvent(msg.sender, _participant, '');
+        emit RegisterEvent(msg.sender, _participant, '');
     }
 
     function registerInternal(string _participant) internal {
@@ -111,19 +111,19 @@ contract Event is Destructible, GroupAdmin {
 
     function withdraw() external onlyEnded {
         require(payoutAmount > 0);
-        Participant participant = participants[msg.sender];
+        Participant storage participant = participants[msg.sender];
         require(participant.addr == msg.sender);
         require(cancelled || participant.attended);
         require(participant.paid == false);
 
         participant.paid = true;
         participant.addr.transfer(payoutAmount);
-        WithdrawEvent(msg.sender, payoutAmount);
+        emit WithdrawEvent(msg.sender, payoutAmount);
     }
 
     /* Constants */
     function totalBalance() constant public returns(uint256) {
-        return this.balance;
+        return address(this).balance;
     }
 
     function isRegistered(address _addr) constant public returns(bool) {
