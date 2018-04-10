@@ -1,11 +1,9 @@
 pragma solidity ^ 0.4 .19;
-import "./zeppelin/ownership/Ownable.sol";
+import './zeppelin/ownership/Ownable.sol';
 
 /**
  * @title GroupAdmin
  * @dev The contract allows multiple addresses to perform as admin.
- * This contract is an extension of Makoto's Blockparty contract as of 3 April 2018
- * 
  */
 contract GroupAdmin is Ownable {
   event AdminGranted(address indexed grantee);
