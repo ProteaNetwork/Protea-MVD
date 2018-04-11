@@ -1,9 +1,9 @@
 # Protea Network MVP
 
-A Project to test out core features in the Protea Network, this MVP serves to have a token facet, token staking RSVP system and later on community governance system. This repo's objective is to use a React, uPort & Drizzle front end to intergrate with the Solidity components, the forecasted components thus far are:
+A Project to test out core features in the Protea Network, this MVP serves to have a token faucet, token staking RSVP system and later on community governance system. This repo's objective is to use a React, uPort & Drizzle front end to intergrate with the Solidity components, the forecasted components thus far are:
 
 * Token version of [Mokoto's BlockParty](https://github.com/makoto/blockparty)
-* A token facet to get initial tokens
+* A token faucet to get initial tokens
 * Front end app using [Truffle's](truffleframework.com) [Drizzle Framework](http://truffleframework.com/docs/drizzle/getting-started) & [React & uPort trufflebox](http://truffleframework.com/boxes/react-uport)
 
 ## Getting Started
