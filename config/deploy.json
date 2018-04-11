@@ -4,6 +4,13 @@
       "name": "ProteaToken",
       "symbol": "PTT",
       "supply": "42000000"
+    },
+    "compliantToken":{
+      "initialSupply": 20000000,
+      "name": "Facet223",
+      "decimals": 2, 
+      "deposit":200,
+      "symbol":"FTC"
     }
   }
   
