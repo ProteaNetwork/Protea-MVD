@@ -5,12 +5,20 @@
       "symbol": "PTT",
       "supply": "42000000"
     },
-    "compliantToken":{
+    "CompliantToken":{
       "initialSupply": 20000000,
       "name": "Facet223",
       "decimals": 2, 
-      "deposit":200,
+      "issuingAmount":200,
       "symbol":"FTC"
+    },
+    "tokenConference":{
+      "name":"Test",
+      "deposit":200,
+      "limitOfParticipants": 20,
+      "coolingPeriod":2,
+      "token": "0x8cdaf0cd259887258bc13a92c0a6da92698644c0",
+      "encryption":""
     }
   }
   

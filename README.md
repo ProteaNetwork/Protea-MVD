@@ -8,12 +8,12 @@ A Project to test out core features in the Protea Network, this MVP serves to ha
 
 ## Getting Started
 
-The individual MVP components are stored in on their own branches. The readme's are updated depending on that features requirements.
+The individual MVP components are stored in on their own branches. The readme is to be updated depending on that features requirements.
 
 ### Prerequisites
 
 
-`Node.Js`, `Truffle`, `Genache-cli`, `npm` or `yarn`
+`Node.Js`, `Truffle`, `Genache-cli`, `npm` or `yarn`, `geth`
 
 
 ### Installing
@@ -22,6 +22,7 @@ The project uses Dotenv for environment variables, please create the `.env` file
 ```
 INFURA_API_KEY=YOUR-KEY
 MNEMONIC=candy maple cake sugar pudding cream honey rich smooth crumble sweet treat
+NODE_ENV=development
 ```
 
 
@@ -29,6 +30,19 @@ MNEMONIC=candy maple cake sugar pudding cream honey rich smooth crumble sweet tr
 npm install or yarn install
 ```
 
+### Front end
+
+First start up Ganache at port 7545, then compile the truffle contracts
+
+```truffle compile```
+
+Next deploy the contracts
+
+```truffle deploy --network development```
+
+Then load up the app with
+
+```yarn run start```
 
 <!-- 
 ## Running the tests
