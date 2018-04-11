@@ -13,18 +13,7 @@ The individual MVP components are stored in on their own branches. The readme's 
 ### Prerequisites
 
 
-```
-Node.Js
-```
-```
-Truffle
-```
-```
-Genache-cli
-```
-```
-npm or yarn
-```
+`Node.Js`, `Truffle`, `Genache-cli`, `npm` or `yarn`
 
 
 ### Installing
