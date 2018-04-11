@@ -1,6 +1,6 @@
 # Protea Network MVP
 
-A Project to test out core features in the Protea Network, this MVP serves to have a token faucet, token staking RSVP system and later on community governance system. This repo's objective is to use a React, uPort & Drizzle front end to intergrate with the Solidity components, the forecasted components thus far are:
+This MVP repo presents the first iteration of the protea network. We develop a method for meetup groups and communities to create decentralized events and stake their attendance via an RSVP function that deposits ERC223 tokens into an event contract and returns them to the attendant upon successful attendance. Attendance is verified via a Proof of Attendance mechanism based on uPort.
 
 * Token version of [Mokoto's BlockParty](https://github.com/makoto/blockparty)
 * A token faucet to get initial tokens
