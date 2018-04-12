@@ -21,7 +21,7 @@ contract CompliantToken is ERC223, SafeMath {
 
     event TokensIssued(address account, uint amount);
 
-    // 20000000,"Facet223",2,200,"FTC"
+    // 20000000,"Faucet223",2,200,"FTC"
     function CompliantToken(
         uint256 _initialAmount,
         string _tokenName,
@@ -32,6 +32,7 @@ contract CompliantToken is ERC223, SafeMath {
         uint init = _issuingAmount * 20;
         balances[this] = _initialAmount - init;               
         balances[msg.sender] = init;               
+        issued[msg.sender] = init;               
         totalSupply = _initialAmount;                        
         name = _tokenName;                                   
         decimals = _decimalUnits;        
@@ -44,7 +45,7 @@ contract CompliantToken is ERC223, SafeMath {
         _;
     }
 
-    function facet() public onlyNewAccount{
+    function faucet() public onlyNewAccount{
         // Can either mint new tokens or take from the current supply
         balances[this] -= issuingAmount;
         issued[msg.sender] += issuingAmount;

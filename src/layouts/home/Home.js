@@ -21,6 +21,21 @@ class Home extends Component {
 
             <br/><br/>
           </div>
+          <div className="pure-u-1-1">
+            <h2>Create event</h2>
+
+            <br/><br/>
+          </div>
+          <div className="pure-u-1-1">
+            <h2>Token Balance</h2>
+
+            <br/><br/>
+          </div>
+          <div className="pure-u-1-1">
+            <h2>RSVP</h2>
+
+            <br/><br/>
+          </div>
         </div>
       </main>
     )

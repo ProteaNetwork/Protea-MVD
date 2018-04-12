@@ -4,7 +4,7 @@ This MVP repo presents the first iteration of the protea network. We develop a m
 
 * Token version of [Mokoto's BlockParty](https://github.com/makoto/blockparty)
 * A token faucet to get initial tokens
-* Front end app using [Truffle's](truffleframework.com) [Drizzle Box](https://github.com/truffle-box/drizzle-box) 
+* Front end app using [Truffle's](truffleframework.com) [Drizzle Box](https://github.com/truffle-box/drizzle-box    ) 
 
 ## Getting Started
 
