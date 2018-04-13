@@ -1,11 +1,12 @@
 pragma solidity ^ 0.4 .19;
 
 import './GroupAdmin.sol';
-import "./CompliantToken.sol";
+import "./ERC223/ERC223_Interface.sol";
+import "./ERC223/Receiver_Interface.sol";
 import './zeppelin/lifecycle/Destructible.sol';
 
-contract TokenConference is Destructible, GroupAdmin {
-	CompliantToken token;
+contract TokenConference is Destructible, GroupAdmin, ERC223Receiver {
+	ERC223 token;
 	string public name;
 	uint256 public deposit;
 	uint public limitOfParticipants;
@@ -20,12 +21,16 @@ contract TokenConference is Destructible, GroupAdmin {
 
 	mapping(address => Participant) public participants;
 	mapping(uint => address) public participantsIndex;
+
+	// For keeping track of the deposits made to the events account
+	mapping(address => uint) public deposited;
 	bool paid;
 
 
 	struct Participant {
 		string participantName;
 		address addr;
+		address identity;
 		bool attended;
 		bool paid;
 	}
@@ -37,12 +42,17 @@ contract TokenConference is Destructible, GroupAdmin {
 		bytes4 sig;
 	}
 
-	event RegisterEvent(address addr, string participantName, string _encryption);
+	event RegisterEvent(address addr);
 	event AttendEvent(address addr);
 	event PaybackEvent(uint256 _payout);
 	event WithdrawEvent(address addr, uint256 _payout);
 	event CancelEvent();
 	event ClearEvent(address addr, uint256 leftOver);
+
+	// Token
+	event FundsReserved(address addr, uint256 amount);
+	event FundsRecovered(address addr, uint amount);
+	event ProfileUpdated(string name);
 
 	/* Modifiers */
 	modifier onlyActive {
@@ -55,8 +65,8 @@ contract TokenConference is Destructible, GroupAdmin {
 		_;
 	}
 
-	modifier fundsAvailable {
-		require(token.balanceOf(msg.sender) >= deposit);
+	modifier onlyToken {
+		require(msg.sender == address(token));
 		_;
 	}
 
@@ -70,7 +80,7 @@ contract TokenConference is Destructible, GroupAdmin {
 		address _token,
 		string _encryption
 	) public {
-		token = CompliantToken(_token);
+		token = ERC223(_token);
 		if (bytes(_name).length != 0) {
 			name = _name;
 		} else {
@@ -100,23 +110,24 @@ contract TokenConference is Destructible, GroupAdmin {
 		}
 	}
 
-	function registerWithEncryption(string _participant, string _encrypted) external onlyActive {
-		registerInternal(_participant);
-		emit RegisterEvent(msg.sender, _participant, _encrypted);
-	}
-
-	function register(string _participant) external onlyActive {
-		registerInternal(_participant);
-		emit RegisterEvent(msg.sender, _participant, '');
-	}
-
-	function registerInternal(string _participant) internal fundsAvailable {
-		// require(msg.value == deposit);
+	function registerInternal(address _from, bytes _data) internal onlyActive {
+		require(deposited[_from] >= deposit);
 		require(registered < limitOfParticipants);
-		require(!isRegistered(msg.sender));
+		require(!isRegistered(_from));
 		registered++;
-		participantsIndex[registered] = msg.sender;
-		participants[msg.sender] = Participant(_participant, msg.sender, false, false);
+		participantsIndex[registered] = _from;
+		participants[_from] = Participant("", _from, _from, false, false);
+		emit RegisterEvent(_from);
+	}
+
+	// Function to recover funds if booking failed
+	function recover() public {
+		require(!isRegistered(msg.sender));
+		require(deposited[msg.sender] > 0);
+		uint returnAmount = deposited[msg.sender];
+		deposited[msg.sender] = 0;
+		token.transfer(msg.sender, returnAmount);
+		emit FundsRecovered(msg.sender, returnAmount);
 	}
 
 	function withdraw() external onlyEnded {
@@ -192,20 +203,27 @@ contract TokenConference is Destructible, GroupAdmin {
 			emit AttendEvent(_addr);
 			participants[_addr].attended = true;
 			attended++;
+			// Identity rewards functions could happen here
+
 		}
 	}
 
-	event debug(TKN tkn);
+	event debug(TKN tkn, address caller);
 	// ERC223 compliance
-	// function tokenFallback(address _from, uint _value, bytes _data) public pure {
-	function tokenFallback(address _from, uint _value, bytes _data) public {
+	function tokenFallback(address _from, uint _value, bytes _data) external pure  {
 		TKN memory tkn;
 		tkn.sender = _from;
 		tkn.value = _value;
 		tkn.data = _data;
 		uint32 u = uint32(_data[3]) + (uint32(_data[2]) << 8) + (uint32(_data[1]) << 16) + (uint32(_data[0]) << 24);
 		tkn.sig = bytes4(u);
-		emit debug(tkn);
+		// emit debug(tkn, msg.sender);
+
+		// // Since deposits can happen before RSVP, this is for users to have access to funds if failed
+		// deposited[_from] += _value;
+
+		// emit FundsReserved(_from, _value);
+		// registerInternal(tkn.sender, tkn.data);
 
 		/* tkn variable is analogue of msg variable of Ether transaction
 		 *  tkn.sender is person who initiated this token transaction   (analogue of msg.sender)

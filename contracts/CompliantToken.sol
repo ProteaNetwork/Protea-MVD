@@ -20,6 +20,7 @@ contract CompliantToken is ERC223, SafeMath {
     uint16 private issuingAmount;
 
     event TokensIssued(address account, uint amount);
+    event Debug(string message);
 
     // 20000000,"Faucet223",2,200,"FTC"
     function CompliantToken(
@@ -46,6 +47,7 @@ contract CompliantToken is ERC223, SafeMath {
     }
 
     function faucet() public onlyNewAccount{
+        // TODO: check if requestor is a contract or not
         // Can either mint new tokens or take from the current supply
         balances[this] -= issuingAmount;
         issued[msg.sender] += issuingAmount;
@@ -82,7 +84,6 @@ contract CompliantToken is ERC223, SafeMath {
     // Standard function transfer similar to ERC20 transfer with no _data .
     // Added due to backwards compatibility reasons .
     function transfer(address _to, uint _value) public returns(bool success) {
-
         //standard function transfer similar to ERC20 transfer with no _data
         //added due to backwards compatibility reasons
         bytes memory empty;
@@ -105,20 +106,27 @@ contract CompliantToken is ERC223, SafeMath {
 
     //function that is called when transaction target is an address
     function transferToAddress(address _to, uint _value, bytes _data) private returns(bool success) {
+        emit Debug("transfer to address");
         if (balanceOf(msg.sender) < _value) revert();
         balances[msg.sender] = safeSub(balanceOf(msg.sender), _value);
         balances[_to] = safeAdd(balanceOf(_to), _value);
         emit Transfer(msg.sender, _to, _value, _data);
         return true;
     }
-
     //function that is called when transaction target is a contract
     function transferToContract(address _to, uint _value, bytes _data) private returns(bool success) {
+        emit Debug("transfer to contract");
         if (balanceOf(msg.sender) < _value) revert();
+        emit Debug("Passed balance check");
+        
         balances[msg.sender] = safeSub(balanceOf(msg.sender), _value);
+        emit Debug("Passed deduction");
         balances[_to] = safeAdd(balanceOf(_to), _value);
-        ContractReceiver receiver = ContractReceiver(_to);
+        emit Debug("Passed adding ");
+        ERC223Receiver receiver = ERC223Receiver(_to);
+        emit Debug("Passed contract fetching");
         receiver.tokenFallback(msg.sender, _value, _data);
+        emit Debug("Passed fallback");
         emit Transfer(msg.sender, _to, _value, _data);
         return true;
     }
