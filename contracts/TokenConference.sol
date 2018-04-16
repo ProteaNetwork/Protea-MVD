@@ -1,9 +1,9 @@
-pragma solidity ^ 0.4 .19;
+pragma solidity ^0.4.18;
 
-import './GroupAdmin.sol';
+import "./GroupAdmin.sol";
 import "./ERC223/ERC223_Interface.sol";
 import "./ERC223/Receiver_Interface.sol";
-import './zeppelin/lifecycle/Destructible.sol';
+import "./zeppelin/lifecycle/Destructible.sol";
 
 contract TokenConference is Destructible, GroupAdmin, ERC223Receiver {
 	ERC223 token;
@@ -210,7 +210,7 @@ contract TokenConference is Destructible, GroupAdmin, ERC223Receiver {
 
 	event debug(TKN tkn, address caller);
 	// ERC223 compliance
-	function tokenFallback(address _from, uint _value, bytes _data) external pure  {
+	function tokenFallback(address _from, uint _value, bytes _data) external pure {
 		TKN memory tkn;
 		tkn.sender = _from;
 		tkn.value = _value;

@@ -1,4 +1,4 @@
-pragma solidity ^ 0.4.9;
+pragma solidity ^0.4.9;
 
 /*
  * Contract that is working with ERC223 tokens

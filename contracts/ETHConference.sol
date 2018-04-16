@@ -1,4 +1,4 @@
-pragma solidity ^ 0.4 .19;
+pragma solidity ^0.4.19;
 
 import './GroupAdmin.sol';
 import './zeppelin/lifecycle/Destructible.sol';

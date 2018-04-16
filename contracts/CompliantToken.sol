@@ -1,8 +1,7 @@
-pragma solidity ^ 0.4 .18;
+pragma solidity ^0.4.18;
 
 import "./ERC223/ERC223_Interface.sol";
 import "./ERC223/Receiver_Interface.sol";
-// import "./zeppelin/SafeMath.sol";
  // Using Revert safemath for Token interactions as used by ERC223 recommendation
 import "./ERC223/SafeMath.sol";
 

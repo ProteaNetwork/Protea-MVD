@@ -55,6 +55,8 @@ contract('TokenConference', (accounts) => {
             await compliantContract.faucet({
                 from: userAddress
             });
+            let balance = (await compliantContract.balanceOf(userAddress)).toNumber();
+            console.log(balance);
             const success = await compliantContract.transfer(tokenConference.address, deposit, {
                 from: userAddress
             });

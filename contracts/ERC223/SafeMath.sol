@@ -23,3 +23,4 @@ contract SafeMath {
         return x * y;
     }
 }
+
