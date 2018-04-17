@@ -23,7 +23,7 @@ contract TokenConference is Destructible, GroupAdmin, ERC223Receiver {
     mapping(address => Participant) public participants;
     mapping(uint => address) public participantsIndex;
 
-    // For keeping track of the deposits made to the events account
+    // // For keeping track of the deposits made to the events account
     mapping(address => uint) public deposited;
     bool paid;
 
@@ -50,12 +50,12 @@ contract TokenConference is Destructible, GroupAdmin, ERC223Receiver {
     event CancelEvent();
     event ClearEvent(address addr, uint256 leftOver);
 
-    // Token
+    // // Token
     event FundsReserved(address addr, uint256 amount);
     event FundsRecovered(address addr, uint amount);
     event ProfileUpdated(string name);
 
-    /* Modifiers */
+    // /* Modifiers */
     modifier onlyActive {
         require(!ended);
         _;
@@ -111,7 +111,7 @@ contract TokenConference is Destructible, GroupAdmin, ERC223Receiver {
         }
     }
 
-    function registerInternal(address _from) internal onlyActive {
+    function registerInternal(address _from, bytes _data) internal onlyActive {
         require(deposited[_from] >= deposit);
         require(registered < limitOfParticipants);
         require(!isRegistered(_from));
@@ -121,33 +121,33 @@ contract TokenConference is Destructible, GroupAdmin, ERC223Receiver {
         emit RegisterEvent(_from);
     }
 
-    // Function to recover funds if booking failed
-    function recover() public {
-        require(!isRegistered(msg.sender));
-        require(deposited[msg.sender] > 0);
+    // // Function to recover funds if booking failed
+    // function recover() public {
+    //     require(!isRegistered(msg.sender));
+    //     require(deposited[msg.sender] > 0);
 
-        uint256 returnAmount = deposited[msg.sender];
-        deposited[msg.sender] = 0;
-        transfer(returnAmount);
-        emit FundsRecovered(msg.sender, returnAmount);
-    }
+    //     uint256 returnAmount = deposited[msg.sender];
+    //     deposited[msg.sender] = 0;
+    //     transfer(returnAmount);
+    //     emit FundsRecovered(msg.sender, returnAmount);
+    // }
 
   
 
-    function withdraw() external onlyEnded {
-        require(payoutAmount > 0);
-        Participant storage participant = participants[msg.sender];
-        require(participant.addr == msg.sender);
-        require(cancelled || participant.attended);
-        require(participant.paid == false);
+    // function withdraw() external onlyEnded {
+    //     require(payoutAmount > 0);
+    //     Participant storage participant = participants[msg.sender];
+    //     require(participant.addr == msg.sender);
+    //     require(cancelled || participant.attended);
+    //     require(participant.paid == false);
 
-        participant.paid = true;
-        participant.addr.transfer(payoutAmount);
-        transfer(payoutAmount);
-        emit WithdrawEvent(msg.sender, payoutAmount);
-    }
+    //     participant.paid = true;
+    //     participant.addr.transfer(payoutAmount);
+    //     transfer(payoutAmount);
+    //     emit WithdrawEvent(msg.sender, payoutAmount);
+    // }
 
-    /* Constants */
+    // /* Constants */
     function totalBalance() view public returns(uint256) {
         return token.balanceOf(this);
     }
@@ -169,7 +169,7 @@ contract TokenConference is Destructible, GroupAdmin, ERC223Receiver {
         return uint(totalBalance()) / uint(attended);
     }
 
-    /* Admin only functions */
+    // /* Admin only functions */
 
     function payback() external onlyOwner onlyActive {
         payoutAmount = payout();
@@ -186,7 +186,7 @@ contract TokenConference is Destructible, GroupAdmin, ERC223Receiver {
         emit CancelEvent();
     }
 
-    /* return the remaining of balance if there are any unclaimed after cooling period */
+    // /* return the remaining of balance if there are any unclaimed after cooling period */
     function clear() external onlyOwner onlyEnded {
         require(now > endedAt + coolingPeriod);
         require(ended);
@@ -218,14 +218,15 @@ contract TokenConference is Destructible, GroupAdmin, ERC223Receiver {
 
     // ERC223 compliance
     function tokenFallback(address _from, uint _value, bytes _data) external {
-        TKN memory tkn;
-        tkn.sender = _from;
-        tkn.value = _value;
-        tkn.data = _data;
-        uint32 u = uint32(_data[3]) + (uint32(_data[2]) << 8) + (uint32(_data[1]) << 16) + (uint32(_data[0]) << 24);
-        tkn.sig = bytes4(u);
+        // TKN memory tkn;
+        // tkn.sender = _from;
+        // tkn.value = _value;
+        // ERC223 Error, Bitwise operator overflow
+        // tkn.data = _data;
+        //uint32 u = uint32(_data[3]) + (uint32(_data[2]) << 8) + (uint32(_data[1]) << 16) + (uint32(_data[0]) << 24);
+        // tkn.sig = bytes4(u);
 
-        // // Since deposits can happen before RSVP, this is for users to have access to funds if failed
+        // Since deposits can happen before RSVP, this is for users to have access to funds if failed
         // deposited[_from] += _value;
 
         // emit FundsReserved(_from, _value);

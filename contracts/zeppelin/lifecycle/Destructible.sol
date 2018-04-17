@@ -10,16 +10,16 @@ import "../ownership/Ownable.sol";
  */
 contract Destructible is Ownable {
 
-  function Destructible() public payable {}
+    function Destructible() public payable {}
 
-  /**
-   * @dev Transfers the current balance to the owner and terminates the contract.
-   */
-  function destroy() onlyOwner public {
-    selfdestruct(owner);
-  }
-
-  function destroyAndSend(address _recipient) onlyOwner public {
-    selfdestruct(_recipient);
-  }
+    /**
+     * @dev Transfers the current balance to the owner and terminates the contract.
+     */
+    function destroy() onlyOwner public {
+      selfdestruct(owner);
+    }
+  
+    function destroyAndSend(address _recipient) onlyOwner public {
+      selfdestruct(_recipient);
+    }
 }

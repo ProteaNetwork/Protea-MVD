@@ -2,43 +2,36 @@ pragma solidity ^0.4.10;
 
 import "./ERC223/SafeMath.sol";
 import "./ERC223/ERC223.sol";
+import "./ERC223/ERC20.sol";
 import "./ERC223/ERC223Receiver.sol";
 
-contract ERC223StandardToken is ERC223 {
+contract ERC223StandardToken is ERC20, ERC223 {
     using SafeMath for uint;
-    // TODO: update
     string internal _name;
     string internal _symbol;
     uint8 internal _decimals;
     uint256 internal _totalSupply;
 
-    uint16 private issuingAmount;
+    uint16 internal _issuingAmount;
 
     mapping (address => uint256) internal balances;
     mapping (address => mapping (address => uint256)) internal allowed;
-     // Tracks all earned tokens, not transfered
-    //mapping(address => uint) issued;
+    // Tracks all earned tokens, not transfered
+    mapping(address => uint) internal issued;
 
-    //event TokensIssued(address account, uint amount);
+    event TokensIssued(address account, uint amount);
 
-    function ERC223StandardToken(string name, string symbol, uint8 decimals, uint256 totalSupply) public {
+    function ERC223StandardToken(string name, string symbol, uint8 decimals, uint256 totalSupply, uint8 tokenIssuingAmount) public {
+        uint init = _issuingAmount * 20;
+        balances[msg.sender] = init;               
+        issued[msg.sender] = init;               
         _symbol = symbol;
         _name = name;
         _decimals = decimals;
         _totalSupply = totalSupply;
-        balances[msg.sender] = totalSupply;
-
-        // uint init = _issuingAmount * 20;
-        // balances[this] = _initialAmount - init;               
-        // balances[msg.sender] = init;               
-        // issued[msg.sender] = init;               
-        // totalSupply = _initialAmount;                        
-        // name = _tokenName;                                   
-        // decimals = _decimalUnits;        
-        // issuingAmount = _issuingAmount;              
-        // symbol = _tokenSymbol;          
+        balances[msg.sender] = totalSupply;      
+        _issuingAmount = tokenIssuingAmount;              
     }
-
     function name()
         public
         view
