@@ -54,7 +54,7 @@ contract('TokenConference', (accounts) => {
         })
 
         it("should register user when tokens deposited", async () => {
-           // https://beresnev.pro/test-overloaded-solidity-functions-via-truffle/
+            // https://beresnev.pro/test-overloaded-solidity-functions-via-truffle/
             // Truffle unable to use overloaded functions, assuming target overload is last entry to the contract
             // Possible upgrade, include lodash to dynamically load abi function
             let targetAbi = erc223Contract.contract.abi[erc223Contract.contract.abi.length - 1];
@@ -68,7 +68,7 @@ contract('TokenConference', (accounts) => {
             let balance = (await erc223Contract.balanceOf(userAddress)).toNumber();
             assert.isTrue(balance === issuingAmount, "faucet has not issued tokens");
 
-            
+
             // Begin creating custom transaction call
             const transferMethodTransactionData = web3Abi.encodeFunctionCall(
                 targetAbi, [
@@ -77,7 +77,7 @@ contract('TokenConference', (accounts) => {
                     web3.toHex("0x00aaff")
                 ]
             );
-          
+
             await web3.eth.sendTransaction({
                 from: userAddress,
                 gas: 170000,
@@ -90,10 +90,60 @@ contract('TokenConference', (accounts) => {
             assert.isTrue(conferenceBalance === issuingAmount, "Transfer to contract failed");
 
             const registered = await tokenConference.isRegistered(userAddress);
-            console.log(registered);
-            
+
             assert.isTrue(registered, "deposit failed to RSVP");
         });
+
+        it("should end event and pay out 1 attendee", async () => {
+            // https://beresnev.pro/test-overloaded-solidity-functions-via-truffle/
+            // Truffle unable to use overloaded functions, assuming target overload is last entry to the contract
+            // Possible upgrade, include lodash to dynamically load abi function
+            let targetAbi = erc223Contract.contract.abi[erc223Contract.contract.abi.length - 1];
+            // 
+            // Giving user some tokens, replace with Faucet
+            await erc223Contract.faucet({
+                from: userAddress
+            });
+
+            // Confirm send
+            let balance = (await erc223Contract.balanceOf(userAddress)).toNumber();
+            assert.isTrue(balance === issuingAmount, "faucet has not issued tokens");
+
+
+            // Begin creating custom transaction call
+            const transferMethodTransactionData = web3Abi.encodeFunctionCall(
+                targetAbi, [
+                    tokenConference.address,
+                    issuingAmount,
+                    web3.toHex("0x00aaff")
+                ]
+            );
+
+            await web3.eth.sendTransaction({
+                from: userAddress,
+                gas: 170000,
+                to: erc223Contract.address,
+                data: transferMethodTransactionData,
+                value: 0
+            });
+
+            let conferenceBalance = (await erc223Contract.balanceOf(tokenConference.address)).toNumber();
+            assert.isTrue(conferenceBalance === issuingAmount, "Transfer to contract failed");
+
+            const registered = await tokenConference.isRegistered(userAddress);
+
+            assert.isTrue(registered, "deposit failed to RSVP");
+
+            await tokenConference.attend([userAddress], {
+                from: adminAddress
+            });
+            await tokenConference.payback({
+                from: adminAddress
+            });
+            await tokenConference.withdraw({
+                from: userAddress
+            });
+        })
     })
 
 

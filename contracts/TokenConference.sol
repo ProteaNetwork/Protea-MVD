@@ -110,28 +110,17 @@ contract TokenConference is Destructible, GroupAdmin, ERC223Receiver {
         }
     }
 
-    function registerInternal(address _from) internal onlyActive {
-        require(deposited[_from] >= deposit);
+    function registerInternal(address _from, uint _value) internal onlyActive {
+        require(_value >= deposit);
         require(registered < limitOfParticipants);
         require(!isRegistered(_from));
+        deposited[_from] += _value;
         registered++;
         participantsIndex[registered] = _from;
+        // Leaving Identity field open for Proof of Attendance
         participants[_from] = Participant(_from, address(0), false, false);
         emit RegisterEvent(_from);
     }
-
-    // Function to recover funds if booking failed
-    function recover() public {
-        require(!isRegistered(msg.sender));
-        require(deposited[msg.sender] > 0);
-
-        uint256 returnAmount = deposited[msg.sender];
-        deposited[msg.sender] = 0;
-        transfer(returnAmount);
-        emit FundsRecovered(msg.sender, returnAmount);
-    }
-
-  
 
     function withdraw() external onlyEnded {
         require(payoutAmount > 0);
@@ -141,7 +130,6 @@ contract TokenConference is Destructible, GroupAdmin, ERC223Receiver {
         require(participant.paid == false);
 
         participant.paid = true;
-        participant.addr.transfer(payoutAmount);
         transfer(payoutAmount);
         emit WithdrawEvent(msg.sender, payoutAmount);
     }
@@ -185,7 +173,7 @@ contract TokenConference is Destructible, GroupAdmin, ERC223Receiver {
         emit CancelEvent();
     }
 
-    // /* return the remaining of balance if there are any unclaimed after cooling period */
+    /* return the remaining of balance if there are any unclaimed after cooling period */
     function clear() external onlyOwner onlyEnded {
         require(now > endedAt + coolingPeriod);
         require(ended);
@@ -218,26 +206,8 @@ contract TokenConference is Destructible, GroupAdmin, ERC223Receiver {
     // ERC223 compliance
     function tokenFallback(address _from, uint _value, bytes _data) external {
         require(msg.sender == address(token));
-        deposited[_from] = _value;
-        // TKN memory tkn;
-        // tkn.sender = _from;
-        // tkn.value = _value;
-        // ERC223 Error, Bitwise operator overflow
-        // tkn.data = _data;
-        //uint32 u = uint32(_data[3]) + (uint32(_data[2]) << 8) + (uint32(_data[1]) << 16) + (uint32(_data[0]) << 24);
-        // tkn.sig = bytes4(u);
 
-        // Since deposits can happen before RSVP, this is for users to have access to funds if failed
-        // deposited[_from] += _value;
+        registerInternal(_from, _value);
 
-        registerInternal(_from);
-
-        /* tkn variable is analogue of msg variable of Ether transaction
-         *  tkn.sender is person who initiated this token transaction   (analogue of msg.sender)
-         *  tkn.value the number of tokens that were sent   (analogue of msg.value)
-         *  tkn.data is data of token transaction   (analogue of msg.data)
-         *  tkn.sig is 4 bytes signature of function
-         *  if data of token transaction is a function execution
-         */
     }
 }
