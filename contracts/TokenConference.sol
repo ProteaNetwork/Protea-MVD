@@ -29,7 +29,6 @@ contract TokenConference is Destructible, GroupAdmin, ERC223Receiver {
 
 
     struct Participant {
-        string participantName;
         address addr;
         address identity;
         bool attended;
@@ -111,41 +110,41 @@ contract TokenConference is Destructible, GroupAdmin, ERC223Receiver {
         }
     }
 
-    function registerInternal(address _from, bytes _data) internal onlyActive {
+    function registerInternal(address _from) internal onlyActive {
         require(deposited[_from] >= deposit);
         require(registered < limitOfParticipants);
         require(!isRegistered(_from));
         registered++;
         participantsIndex[registered] = _from;
-        participants[_from] = Participant("", _from, _from, false, false);
+        participants[_from] = Participant(_from, address(0), false, false);
         emit RegisterEvent(_from);
     }
 
-    // // Function to recover funds if booking failed
-    // function recover() public {
-    //     require(!isRegistered(msg.sender));
-    //     require(deposited[msg.sender] > 0);
+    // Function to recover funds if booking failed
+    function recover() public {
+        require(!isRegistered(msg.sender));
+        require(deposited[msg.sender] > 0);
 
-    //     uint256 returnAmount = deposited[msg.sender];
-    //     deposited[msg.sender] = 0;
-    //     transfer(returnAmount);
-    //     emit FundsRecovered(msg.sender, returnAmount);
-    // }
+        uint256 returnAmount = deposited[msg.sender];
+        deposited[msg.sender] = 0;
+        transfer(returnAmount);
+        emit FundsRecovered(msg.sender, returnAmount);
+    }
 
   
 
-    // function withdraw() external onlyEnded {
-    //     require(payoutAmount > 0);
-    //     Participant storage participant = participants[msg.sender];
-    //     require(participant.addr == msg.sender);
-    //     require(cancelled || participant.attended);
-    //     require(participant.paid == false);
+    function withdraw() external onlyEnded {
+        require(payoutAmount > 0);
+        Participant storage participant = participants[msg.sender];
+        require(participant.addr == msg.sender);
+        require(cancelled || participant.attended);
+        require(participant.paid == false);
 
-    //     participant.paid = true;
-    //     participant.addr.transfer(payoutAmount);
-    //     transfer(payoutAmount);
-    //     emit WithdrawEvent(msg.sender, payoutAmount);
-    // }
+        participant.paid = true;
+        participant.addr.transfer(payoutAmount);
+        transfer(payoutAmount);
+        emit WithdrawEvent(msg.sender, payoutAmount);
+    }
 
     // /* Constants */
     function totalBalance() view public returns(uint256) {
@@ -218,6 +217,8 @@ contract TokenConference is Destructible, GroupAdmin, ERC223Receiver {
 
     // ERC223 compliance
     function tokenFallback(address _from, uint _value, bytes _data) external {
+        require(msg.sender == address(token));
+        deposited[_from] = _value;
         // TKN memory tkn;
         // tkn.sender = _from;
         // tkn.value = _value;
@@ -229,8 +230,7 @@ contract TokenConference is Destructible, GroupAdmin, ERC223Receiver {
         // Since deposits can happen before RSVP, this is for users to have access to funds if failed
         // deposited[_from] += _value;
 
-        // emit FundsReserved(_from, _value);
-        // registerInternal(tkn.sender, tkn.data);
+        registerInternal(_from);
 
         /* tkn variable is analogue of msg variable of Ether transaction
          *  tkn.sender is person who initiated this token transaction   (analogue of msg.sender)

@@ -4,7 +4,7 @@ const web3Abi = require('web3-eth-abi');
 // import expectThrow from './helpers/expectThrow';
 var ERC223StandardToken = artifacts.require('./ERC223StandardToken.sol');
 var ERC223Receiver = artifacts.require('./TokenConference.sol');
-const spareWeb3 = ERC223Receiver.web3;
+const web3 = ERC223Receiver.web3;
 
 const fs = require('fs');
 const deployConfig = JSON.parse(fs.readFileSync('./config/deploy.json'));
@@ -70,13 +70,13 @@ contract('ERC223Standard', (accounts) => {
             let targetAbi = erc223Contract.contract.abi[erc223Contract.contract.abi.length - 1];
             // 
             // Giving user some tokens, replace with Faucet
-            await erc223Contract.transfer(userAddress, issuingAmount, {
-                from: tokenOwnerAddress
+            await erc223Contract.faucet({
+                from: userAddress
             });
 
             // Confirm send
             let balance = (await erc223Contract.balanceOf(userAddress)).toNumber();
-            assert.isTrue(balance >= issuingAmount);
+            assert.isTrue(balance === issuingAmount, "faucet has not issued tokens");
 
             
             // Begin creating custom transaction call
@@ -84,18 +84,20 @@ contract('ERC223Standard', (accounts) => {
                 targetAbi, [
                     receiverContract.address,
                     issuingAmount,
-                    spareWeb3.toHex("0x00aaff")
+                    web3.toHex("0x00aaff")
                 ]
             );
-            await spareWeb3.eth.sendTransaction({
+          
+            await web3.eth.sendTransaction({
                 from: userAddress,
+                gas: 170000,
                 to: erc223Contract.address,
                 data: transferMethodTransactionData,
                 value: 0
             });
 
             let conferenceBalance = (await erc223Contract.balanceOf(receiverContract.address)).toNumber();
-            assert.isTrue(conferenceBalance >= issuingAmount);
+            assert.isTrue(conferenceBalance === issuingAmount, "Transfer to contract failed");
         });
     })
    
