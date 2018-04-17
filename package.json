@@ -67,6 +67,7 @@
     "truffle-contract": "^1.1.8",
     "truffle-hdwallet-provider": "0.0.3",
     "url-loader": "0.5.7",
+    "web3-eth-abi": "^1.0.0-beta.34",
     "webpack": "1.14.0",
     "webpack-dev-server": "1.16.2",
     "webpack-manifest-plugin": "1.1.0",
