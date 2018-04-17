@@ -1,5 +1,5 @@
 import TokenConference from './../build/contracts/TokenConference.json'
-import CompliantToken from './../build/contracts/CompliantToken.json'
+import ERC223StandardToken from './../build/contracts/ERC223StandardToken.json'
 
 const drizzleOptions = {
   web3: {
@@ -11,10 +11,10 @@ const drizzleOptions = {
   },
   contracts: [
     TokenConference,
-    CompliantToken
+    ERC223StandardToken
   ],
   events: {
-    CompliantToken: ['TokensIssued'],
+    ERC223StandardToken: ['TokensIssued'],
     TokenConference: ['RegisterEvent','AttendEvent','PaybackEvent',
     'WithdrawEvent','CancelEvent','ClearEvent']  },
   polls: {
