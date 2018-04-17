@@ -68,21 +68,12 @@ contract('ERC223Standard', (accounts) => {
             // Truffle unable to use overloaded functions, assuming target overload is last entry to the contract
             // Possible upgrade, include lodash to dynamically load abi function
             let targetAbi = erc223Contract.contract.abi[erc223Contract.contract.abi.length - 1];
-            // console.log("Contract Balance:",(await erc223Contract.balanceOf(erc223Contract.address)).toNumber());
-            // console.log("Token Owner balanace:",(await erc223Contract.balanceOf(tokenOwnerAddress)).toNumber());
-            // console.log("Event balanace:",(await erc223Contract.balanceOf(receiverContract.address)).toNumber());
-            // console.log("User balanace",(await erc223Contract.balanceOf(userAddress)).toNumber());
-            // console.log("")
+            // 
             // Giving user some tokens, replace with Faucet
             await erc223Contract.transfer(userAddress, issuingAmount, {
                 from: tokenOwnerAddress
             });
 
-            // console.log("Contract Balance:",(await erc223Contract.balanceOf(erc223Contract.address)).toNumber());
-            // console.log("Token Owner balanace:",(await erc223Contract.balanceOf(tokenOwnerAddress)).toNumber());
-            // console.log("Event balanace:",(await erc223Contract.balanceOf(receiverContract.address)).toNumber());
-            // console.log("User balanace",(await erc223Contract.balanceOf(userAddress)).toNumber());
-            // console.log("")
             // Confirm send
             let balance = (await erc223Contract.balanceOf(userAddress)).toNumber();
             assert.isTrue(balance >= issuingAmount);
@@ -102,12 +93,6 @@ contract('ERC223Standard', (accounts) => {
                 data: transferMethodTransactionData,
                 value: 0
             });
-
-            // console.log("Contract Balance:",(await erc223Contract.balanceOf(erc223Contract.address)).toNumber());
-            // console.log("Token Owner balanace:",(await erc223Contract.balanceOf(tokenOwnerAddress)).toNumber());
-            // console.log("Event balanace:",(await erc223Contract.balanceOf(receiverContract.address)).toNumber());
-            // console.log("User balanace",(await erc223Contract.balanceOf(userAddress)).toNumber());
-            // console.log("")
 
             let conferenceBalance = (await erc223Contract.balanceOf(receiverContract.address)).toNumber();
             assert.isTrue(conferenceBalance >= issuingAmount);
