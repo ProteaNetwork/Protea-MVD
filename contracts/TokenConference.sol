@@ -178,7 +178,7 @@ contract TokenConference is Destructible, GroupAdmin, ERC223Receiver {
         require(now > endedAt + coolingPeriod);
         require(ended);
         uint leftOver = totalBalance();
-        owner.transfer(leftOver);
+        transfer(leftOver);
         emit ClearEvent(owner, leftOver);
     }
 
