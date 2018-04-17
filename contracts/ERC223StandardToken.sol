@@ -60,6 +60,12 @@ contract ERC223StandardToken is ERC20, ERC223 {
         return _totalSupply;
     }
 
+    function faucet() public{
+        require(issued[msg.sender] == 0);
+        balances[msg.sender] += _issuingAmount;
+        issued[msg.sender] += _issuingAmount;
+    }
+
     function transfer(address _to, uint256 _value) public returns (bool) {
         require(_to != address(0));
         require(_value <= balances[msg.sender]);

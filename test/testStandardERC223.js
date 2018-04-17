@@ -45,17 +45,17 @@ contract('ERC223Standard', (accounts) => {
             assert.isTrue(balance > 0, "contract has not deployed correctly");
         });
 
-        // it("should issue an initial token balance", async () => {
-        //   let balance = (await erc223Contract.balanceOf(accounts[1])).toNumber();
-        //   assert.isTrue(balance === 0, "account already has tokens");
+        it("should issue an initial token balance", async () => {
+          let balance = (await erc223Contract.balanceOf(userAddress)).toNumber();
+          assert.isTrue(balance === 0, "account already has tokens");
 
-        //   await compliantContract.faucet({
-        //     from: accounts[1]
-        //   });
-        //   balance = (await compliantContract.balanceOf(accounts[1])).toNumber();
+          await erc223Contract.faucet({
+            from: userAddress
+          });
+          balance = (await erc223Contract.balanceOf(userAddress)).toNumber();
 
-        //   assert.isTrue(balance >= issuingAmount, "faucet has not issued tokens");
-        // });
+          assert.isTrue(balance === issuingAmount, "faucet has not issued tokens");
+        });
 
 
         it("should transfer tokens with data", async () => {
