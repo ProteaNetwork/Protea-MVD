@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { AccountData, ContractData, ContractForm } from 'drizzle-react-components'
 import logo from '../../logo.png'
+import  Faucet  from '../../token/Faucet.js';
 
 class Home extends Component {
   render() {
@@ -18,12 +19,12 @@ class Home extends Component {
           <div className="pure-u-1-1">
             <h2>Active Account</h2>
             <AccountData accountIndex="0" units="ether" precision="3" />
-            <ContractData contract="ERC223StandardToken" method="balanceOf" methodArgs={[this.props.accounts[0],{from: this.props.accounts[0]}]} />
+            Protea Balance: <ContractData contract="ERC223StandardToken" method="balanceOf" methodArgs={[this.props.accounts[0],{from: this.props.accounts[0]}]} />
             <br/><br/>
           </div>
           <div className="pure-u-1-1">
-            <h2>Create event</h2>
-
+            <h2>Claim complimentary tokens</h2>
+            <Faucet contract="ERC223StandardToken" method="faucet" />
             <br/><br/>
           </div>
           <div className="pure-u-1-1">
