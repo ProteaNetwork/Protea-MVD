@@ -8,6 +8,7 @@ import "./zeppelin/lifecycle/Destructible.sol";
 contract TokenConference is Destructible, GroupAdmin, ERC223Receiver {
     ERC223 internal token;
 
+    // TODO: Could save gas changing to private on some
     string public name;
     uint256 public deposit;
     uint public limitOfParticipants;

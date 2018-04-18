@@ -2,8 +2,13 @@ import React, { Component } from 'react'
 import { AccountData, ContractData, ContractForm } from 'drizzle-react-components'
 import logo from '../../logo.png'
 import  Faucet  from '../../token/Faucet.js';
+import ConferenceStatus from '../../token-conference/ConferenceStatus';
 
 class Home extends Component {
+  constructor(props, context){
+    super(props);
+     
+  }
   render() {
     return (
       <main className="container">
@@ -11,7 +16,8 @@ class Home extends Component {
           <div className="pure-u-1-1 header">
             <img src={logo} alt="drizzle-logo" />
             <h1>Protea MVP</h1>
-            <p>Examples of how to get started with Drizzle in various situations.</p>
+            <p>An ERC223 token with a simple faucet facility that interacts with a<br />
+            Token version of Mokoto's BlockParty</p>
 
             <br/><br/>
           </div>
@@ -28,13 +34,13 @@ class Home extends Component {
             <br/><br/>
           </div>
           <div className="pure-u-1-1">
-            <h2>Token Balance</h2>
+            <h2>RSVP for event</h2>
+              User is Admin: <ConferenceStatus contract="TokenConference"  method="isAdmin" methodArgs={[this.props.accounts[0],{from: this.props.accounts[0]}]} />
+               <br />
+              User Registered: <ConferenceStatus contract="TokenConference"  method="isRegistered" methodArgs={[this.props.accounts[0],{from: this.props.accounts[0]}]} />
 
-            <br/><br/>
-          </div>
-          <div className="pure-u-1-1">
-            <h2>RSVP</h2>
-
+              <br/>
+              <ContractForm contract="ERC223StandardToken" method="transfer" labels={['To Address', 'Amount to Send', 'Arb data']} />
             <br/><br/>
           </div>
         </div>

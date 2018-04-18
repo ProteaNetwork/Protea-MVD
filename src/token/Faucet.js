@@ -18,7 +18,6 @@ class Faucet extends Component {
 
         this.dataKey = this.contracts[this.props.contract].methods.balanceOf.cacheCall(this.props.accounts[0]);
         // Fetch initial value from chain and return cache key for reactive updates.
-        console.log("searching")
         // Iterate over abi for correct function.
         for (var i = 0; i < abi.length; i++) {
             if (abi[i].name === this.props.method) {
@@ -36,7 +35,6 @@ class Faucet extends Component {
     render() {
         let balance = -1;
         // Contract is not yet intialized.
-        console.log(this.props.contracts[this.props.contract]);
         if(!this.props.contracts[this.props.contract].initialized) {
             return (
                 <span>Initializing...</span>
