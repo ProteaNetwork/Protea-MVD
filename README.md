@@ -42,13 +42,16 @@ To deploy the contracts, use:
 
 ### Front end
 
-First start up Ganache at port 7545, then compile the truffle contracts
+First start up Ganache at port 7545 running at 3 second block time,
+```yarn run testnet``` 
+
+then compile the truffle contracts
 
 ```truffle compile```
 
 Next deploy the contracts
 
-```truffle deploy --network development```
+```truffle migrate --network development```
 
 Then load up the app with
 
@@ -63,7 +66,20 @@ Then load up the app with
 
 ## Deployment -->
 
+## Ganache accounts
 
+### Mnemonic
+camel ostrich bagel potato spaniel lettuce tomato mustard salt pepper cayenne butter
+
+### Public Keys
+(0) 0x225ef27570c7d0e4773caee4b6bc03526b5df370
+(1) 0x3b1451961d6e8702be61954c02c4ae2b4199cf97
+(2) 0x1bb0e83842730e904063d752918b378a7c92ce2f
+
+### Private Keys
+(0) eb752dc9a4acbc8f8520dcd5499d480274a8794cf612b9cb70cf343306903da0
+(1) c3649567a7841ae9a519b6d209983302bca37cb4266433e85057ae818a3df34e
+(2) 9fa998e9a3c49b2babfb7df5b41990487d1014b685d967fe5d99f1986f5c06e2
 
 ## Built With
 

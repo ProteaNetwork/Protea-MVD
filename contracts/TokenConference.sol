@@ -49,12 +49,9 @@ contract TokenConference is Destructible, GroupAdmin, ERC223Receiver {
     event CancelEvent();
     event ClearEvent(address addr, uint256 leftOver);
 
-    // // Token
-    event FundsReserved(address addr, uint256 amount);
-    event FundsRecovered(address addr, uint amount);
-    event ProfileUpdated(string name);
+    // Token
 
-    // /* Modifiers */
+    /* Modifiers */
     modifier onlyActive {
         require(!ended);
         _;
@@ -73,13 +70,13 @@ contract TokenConference is Destructible, GroupAdmin, ERC223Receiver {
     /* Public functions */
 
     function TokenConference(
-        string _name,
-        uint256 _deposit,
-        uint _limitOfParticipants,
-        uint _coolingPeriod,
-        address _tokenAddress,
+        string _name, 
+        uint256 _deposit, 
+        uint _limitOfParticipants, 
+        uint _coolingPeriod, 
+        address _tokenAddress, 
         string _encryption
-    ) public {
+        ) public {
         token = ERC223(_tokenAddress);
         if (bytes(_name).length != 0) {
             name = _name;

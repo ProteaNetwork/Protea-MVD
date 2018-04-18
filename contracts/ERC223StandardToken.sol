@@ -64,6 +64,7 @@ contract ERC223StandardToken is ERC20, ERC223 {
         require(issued[msg.sender] == 0);
         balances[msg.sender] += _issuingAmount;
         issued[msg.sender] += _issuingAmount;
+        emit TokensIssued(msg.sender, _issuingAmount);
     }
 
     function transfer(address _to, uint256 _value) public returns (bool) {

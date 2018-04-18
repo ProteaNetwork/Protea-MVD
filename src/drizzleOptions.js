@@ -14,7 +14,7 @@ const drizzleOptions = {
     ERC223StandardToken
   ],
   events: {
-    ERC223StandardToken: ['TokensIssued'],
+    ERC223StandardToken: ['Approval','TokensIssued','Transfer'],
     TokenConference: ['RegisterEvent','AttendEvent','PaybackEvent',
     'WithdrawEvent','CancelEvent','ClearEvent']  },
   polls: {

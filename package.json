@@ -93,7 +93,7 @@
     "test": "node scripts/test.js --env=jsdom",
     "chain": "geth --datadir=\"/tmp/eth/60/01\" --nodiscover --maxpeers 0 --port 30301 --rpc --rpcapi \"db,eth,net,web3\" --rpcport 8101 --verbosity 6 console",
     "migrate:kovan": "truffle migrate --network kovan",
-    "testnet": "ganache-cli -p 7545"
+    "testnet": "ganache-cli -b 3 -p 7545 -m 'camel ostrich bagel potato spaniel lettuce tomato mustard salt pepper cayenne butter'"
   },
   "jest": {
     "collectCoverageFrom": [

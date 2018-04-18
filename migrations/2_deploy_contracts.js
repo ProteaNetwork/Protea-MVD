@@ -18,9 +18,9 @@ const coolingPeriod = deployConfig.tokenConference.coolingPeriod;
 const encryption = deployConfig.tokenConference.encryption;
 
 
-module.exports = function (deployer, network) {
-    deployer.deploy(ERC223Standard,name, tokenSymbol, decimalUnits, initialSupply, issuingAmount).then(() => {
+module.exports = function (deployer, network, accounts) {
+    deployer.deploy(ERC223Standard,name, tokenSymbol, decimalUnits, initialSupply, issuingAmount,{from: accounts[0]}).then(() => {
         return deployer.deploy(TokenConference, conferenceName, deposit, limitOfParticipants,
-            coolingPeriod, ERC223Standard.address, encryption) 
+            coolingPeriod, ERC223Standard.address, encryption, {from: accounts[1]}) 
     })
 };
