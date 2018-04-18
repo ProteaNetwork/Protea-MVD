@@ -30,6 +30,16 @@ NODE_ENV=development
 npm install or yarn install
 ```
 
+### ERC223 & Tokenized BlockParty
+Firstly open either Ganache GUI or Ganache-cli at port 7545.
+
+To run Ganache-cli
+```yarn run testnet```
+
+To deploy the contracts, use:
+```truffle migrate```
+
+
 ### Front end
 
 First start up Ganache at port 7545, then compile the truffle contracts
