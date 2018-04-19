@@ -25,6 +25,7 @@ class RSVP extends Component {
 
         this.balanceCheckKey = this.tokenContract.methods.balanceOf.cacheCall(this.props.accounts[0],{from: this.props.accounts[0]});
         this.depositKey = this.conferenceContract.methods.deposit.cacheCall();
+        this.conferenceContract.methods.deposit.cacheCall();
         // Fetch initial value from chain and return cache key for reactive updates.
         // Iterate over abi for correct function.
         this.registeredKey = this.conferenceContract.methods.isRegistered.cacheCall(this.props.accounts[0],{from: this.props.accounts[0]});
@@ -41,9 +42,6 @@ class RSVP extends Component {
 
     handleSubmit(){
         // ERROR: Drizzle not capable of overloaded function, manual call
-        console.log("begin", this.transferAbi,  this.conferenceContract._address, 
-        this.deposit, 
-        this.web3.utils.toHex("0x00aaff"))
         const encodedCall = this.web3.eth.abi.encodeFunctionCall(
             this.transferAbi, [
                 this.conferenceContract._address, 
@@ -51,18 +49,16 @@ class RSVP extends Component {
                 this.web3.utils.toHex("0x00aaff")
             ]
         )
-        console.log("Encoded")
         
-        const txData = this.web3.eth.sendTransaction({
+        this.web3.eth.sendTransaction({
             from: this.props.accounts[0],
             gas: 170000,
             to: this.tokenContract._address,
             data: encodedCall,
             value: 0
         })
-        console.log("sent")
+        this.registeredKey = this.conferenceContract.methods.isRegistered.cacheCall(this.props.accounts[0],{from: this.props.accounts[0]});
         
-        console.log(txData);
         // this.tokenContract.methods["transfer"].cacheSend([this.conferenceContract._address, this.deposit, this.web3.utils.toHex("0x00aaff")]);
     }
 
@@ -105,7 +101,7 @@ class RSVP extends Component {
                     </span>
                 )
             }else{
-                this.deposit = parseInt(this.props.contracts[this.props.token].balanceOf[this.balanceCheckKey].value, 10);
+                this.deposit = parseInt(this.props.contracts[this.props.conference].deposit[this.depositKey].value, 10);
                 if(this.balance >= this.deposit){
                     return(
                         <form className="pure-form pure-form-stacked">

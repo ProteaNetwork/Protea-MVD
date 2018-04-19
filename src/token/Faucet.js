@@ -16,7 +16,8 @@ class Faucet extends Component {
         // Get the contract ABI
         const abi = this.contracts[this.props.contract].abi;
 
-        this.dataKey = this.contracts[this.props.contract].methods.balanceOf.cacheCall(this.props.accounts[0]);
+        this.balanceKey = this.contracts[this.props.contract].methods.balanceOf.cacheCall(this.props.accounts[0]);
+        this.faucetKey = -1;
         // Fetch initial value from chain and return cache key for reactive updates.
         // Iterate over abi for correct function.
         for (var i = 0; i < abi.length; i++) {
@@ -29,7 +30,7 @@ class Faucet extends Component {
     }
 
     handleSubmit() {
-        this.dataKey = this.contracts[this.props.contract].methods[this.props.method].cacheSend({from: this.props.accounts[0]});
+        this.faucetKey =  this.contracts[this.props.contract].methods[this.props.method].cacheSend({from: this.props.accounts[0]});
     }
 
     render() {
@@ -40,14 +41,31 @@ class Faucet extends Component {
                 <span>Initializing...</span>
             )
         }
+        if(this.faucetKey >= 0){
+            if(!this.props.transactionStack[this.faucetKey]) {
+                return (
+                    <span>
+                        Claiming tokens...
+                    </span>
+                )
+            }else{
+                const txKey = this.props.transactionStack[this.faucetKey];
+                if(this.props.transactions[txKey].status === "success"){
+
+                    this.faucetKey = -1;
+                    this.balanceKey = this.contracts[this.props.contract].methods.balanceOf.cacheCall(this.props.accounts[0]);
+                }
+                
+            }        
+        }
         // If the cache key we received earlier isn't in the store yet; the initial value is still being fetched.
-        if(!(this.dataKey in this.props.contracts[this.props.contract].balanceOf)) {
+        if(!(this.balanceKey in this.props.contracts[this.props.contract].balanceOf)) {
             return (
                 <span>Fetching...</span>
             )
         }
         else{
-            balance = parseInt(this.props.contracts[this.props.contract].balanceOf[this.dataKey].value, 10);
+            balance = parseInt(this.props.contracts[this.props.contract].balanceOf[this.balanceKey].value, 10);
              // /* Need to check if issued*/
             if(balance === 0){
                 return (
@@ -79,7 +97,9 @@ Faucet.contextTypes = {
 const mapStateToProps = state => {
     return {
         accounts: state.accounts,
-        contracts: state.contracts
+        contracts: state.contracts,
+        transactions: state.transactions,
+        transactionStack : state.transactionStack
     }
 }
 
