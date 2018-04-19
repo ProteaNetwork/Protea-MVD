@@ -67,7 +67,7 @@ class Faucet extends Component {
                 )
             }else{
                 // this.manageRequests();
-                this.forceUpdate();
+                // this.forceUpdate();
             }
                 
         }

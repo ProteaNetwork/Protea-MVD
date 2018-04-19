@@ -184,7 +184,7 @@ contract TokenConference is Destructible, GroupAdmin, ERC223Receiver {
         limitOfParticipants = _limitOfParticipants;
     }
 
-    function attend(address[] _addresses) external onlyAdmin onlyActive {
+    function attend(address[] _addresses) public onlyAdmin onlyActive {
         for (uint i = 0; i < _addresses.length; i++) {
             address _addr = _addresses[i];
             require(isRegistered(_addr));
