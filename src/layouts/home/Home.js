@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { AccountData, ContractData, ContractForm } from 'drizzle-react-components'
+import { AccountData, ContractData } from 'drizzle-react-components'
 import logo from '../../logo.png'
 import  Faucet  from '../../token/Faucet.js';
 import ConferenceStatus from '../../token-conference/ConferenceStatus';
+import RSVP from '../../token-conference/RSVP';
 
 class Home extends Component {
   constructor(props, context){
@@ -35,13 +36,21 @@ class Home extends Component {
           </div>
           <div className="pure-u-1-1">
             <h2>RSVP for event</h2>
-              User is Admin: <ConferenceStatus contract="TokenConference"  method="isAdmin" methodArgs={[this.props.accounts[0],{from: this.props.accounts[0]}]} />
                <br />
               User Registered: <ConferenceStatus contract="TokenConference"  method="isRegistered" methodArgs={[this.props.accounts[0],{from: this.props.accounts[0]}]} />
-
               <br/>
-              <ContractForm contract="ERC223StandardToken" method="transfer" labels={['To Address', 'Amount to Send', 'Arb data']} />
+              <br/>
+              <RSVP token="ERC223StandardToken" conference="TokenConference" />
+              <br/>
+
             <br/><br/>
+          </div>
+          <div className="pure-u-1-1">
+            <h2>
+              Admin Controls
+            </h2>
+              User is Admin: <ConferenceStatus contract="TokenConference"  method="isAdmin" methodArgs={[this.props.accounts[0],{from: this.props.accounts[0]}]} />
+            
           </div>
         </div>
       </main>

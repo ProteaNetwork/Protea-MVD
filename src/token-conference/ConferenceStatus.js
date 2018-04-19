@@ -25,7 +25,6 @@ class ConferenceStatus extends Component {
             )
         }
         // If the cache key we received earlier isn't in the store yet; the initial value is still being fetched.
-        console.log(this.props.contracts[this.props.contract])
         if(!(this.dataKey in this.props.contracts[this.props.contract][this.props.method])) {
             return (
                 <span>Fetching...</span>
