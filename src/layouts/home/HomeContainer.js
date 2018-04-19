@@ -5,6 +5,8 @@ import { drizzleConnect } from 'drizzle-react'
 const mapStateToProps = state => {
   return {
     accounts: state.accounts,
+    ERC223StandardToken: state.contracts.ERC223StandardToken,
+    TokenConference: state.contracts.TokenConference,
     drizzleStatus: state.drizzleStatus
   }
 }

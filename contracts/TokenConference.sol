@@ -8,6 +8,7 @@ import "./zeppelin/lifecycle/Destructible.sol";
 contract TokenConference is Destructible, GroupAdmin, ERC223Receiver {
     ERC223 internal token;
 
+    // TODO: Could save gas changing to private on some
     string public name;
     uint256 public deposit;
     uint public limitOfParticipants;
@@ -49,12 +50,9 @@ contract TokenConference is Destructible, GroupAdmin, ERC223Receiver {
     event CancelEvent();
     event ClearEvent(address addr, uint256 leftOver);
 
-    // // Token
-    event FundsReserved(address addr, uint256 amount);
-    event FundsRecovered(address addr, uint amount);
-    event ProfileUpdated(string name);
+    // Token
 
-    // /* Modifiers */
+    /* Modifiers */
     modifier onlyActive {
         require(!ended);
         _;
@@ -73,13 +71,13 @@ contract TokenConference is Destructible, GroupAdmin, ERC223Receiver {
     /* Public functions */
 
     function TokenConference(
-        string _name,
-        uint256 _deposit,
-        uint _limitOfParticipants,
-        uint _coolingPeriod,
-        address _tokenAddress,
+        string _name, 
+        uint256 _deposit, 
+        uint _limitOfParticipants, 
+        uint _coolingPeriod, 
+        address _tokenAddress, 
         string _encryption
-    ) public {
+        ) public {
         token = ERC223(_tokenAddress);
         if (bytes(_name).length != 0) {
             name = _name;
@@ -186,7 +184,7 @@ contract TokenConference is Destructible, GroupAdmin, ERC223Receiver {
         limitOfParticipants = _limitOfParticipants;
     }
 
-    function attend(address[] _addresses) external onlyAdmin onlyActive {
+    function attend(address[] _addresses) public onlyAdmin onlyActive {
         for (uint i = 0; i < _addresses.length; i++) {
             address _addr = _addresses[i];
             require(isRegistered(_addr));
