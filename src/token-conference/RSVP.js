@@ -3,7 +3,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 /*
- * Create component.
+ * @title: RSVP component
+ * Used to allow users with available balance who aren't registered
+ * to fire a transfer to the event contracts address
+ * ERC223 needs to be updated to detect contract on all transfer variants
+ * 
+ * TODO: Update component on on RPC response still not functioning dynamically
  */
 
 class RSVP extends Component {
@@ -131,7 +136,9 @@ RSVP.contextTypes = {
 const mapStateToProps = state => {
     return {
         accounts: state.accounts,
-        contracts: state.contracts
+        contracts: state.contracts,
+        transactions: state.transactions,
+        transactionStack: state.transactionStack
     }
 }
 

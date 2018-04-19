@@ -3,7 +3,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 /*
- * Create component.
+ * @title: Conference status
+ * Generic reimplementation of Drizzle component
  */
 
 class ConferenceStatus extends Component {
