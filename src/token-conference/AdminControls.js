@@ -27,7 +27,6 @@ class AdminControls extends Component {
         this.conferenceContract = context.drizzle.contracts[this.props.conference];
         // Request Key
         this.adminKey = this.conferenceContract.methods.isAdmin.cacheCall(this.props.accounts[0],{from: this.props.accounts[0]});
-        console.log(this.conferenceContract.methods);
         this.isEndedKey = this.conferenceContract.methods.ended.cacheCall();
 
         const abi = this.conferenceContract.abi;

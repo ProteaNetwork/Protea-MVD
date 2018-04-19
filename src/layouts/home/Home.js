@@ -5,6 +5,7 @@ import  Faucet  from '../../token/Faucet.js';
 import ConferenceStatus from '../../token-conference/ConferenceStatus';
 import RSVP from '../../token-conference/RSVP';
 import AdminControls from '../../token-conference/AdminControls';
+import Withdraw from '../../token-conference/Withdraw';
 
 class Home extends Component {
   constructor(props, context){
@@ -44,6 +45,11 @@ class Home extends Component {
               <RSVP token="ERC223StandardToken" conference="TokenConference" />
               <br/>
 
+            <br/><br/>
+          </div>
+          <div className="pure-u-1-1">
+            <h2>Withdraw from Event</h2>
+              <Withdraw conference="TokenConference" />
             <br/><br/>
           </div>
           <div className="pure-u-1-1">
