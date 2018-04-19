@@ -35,7 +35,7 @@ class Faucet extends Component {
             console.log("Old IssuedKey", this.issuedKey)
             this.faucetIndex = -1;
             this.issuedKey = this.contracts[this.props.contract].methods.checkIssued.cacheCall(this.props.accounts[0]);
-            console.log("New ISsuedKey", this.issuedKey)
+            console.log("New IssuedKey", this.issuedKey)
         }
     }
     componentWillMount(){
@@ -45,13 +45,12 @@ class Faucet extends Component {
                 console.log("Old IssuedKey", this.issuedKey)
                 this.faucetIndex = -1;
                 this.issuedKey = this.contracts[this.props.contract].methods.checkIssued.cacheCall(this.props.accounts[0]);
-                console.log("New ISsuedKey", this.issuedKey)
+                console.log("New IssuedKey", this.issuedKey)
             }
         }
     }
 
     render() {
-        console.log("Transactions: ",this.props.transactions)
         let issued = -1;
         // Contract is not yet intialized.
         if(!this.props.contracts[this.props.contract].initialized) {
@@ -60,7 +59,6 @@ class Faucet extends Component {
             )
         }
         if(this.faucetIndex >= 0){
-            console.log("Faucet key added")
             if(!this.props.transactionStack[this.faucetIndex]) {
                 return (
                     <span>
@@ -73,7 +71,6 @@ class Faucet extends Component {
             }
                 
         }
-        console.log("Faucet funtioncs", this.props.contracts[this.props.contract].checkIssued)
         // If the cache key we received earlier isn't in the store yet; the initial value is still being fetched.
         if(!(this.issuedKey in this.props.contracts[this.props.contract].checkIssued)) {
             return (

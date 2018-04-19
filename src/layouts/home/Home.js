@@ -4,6 +4,7 @@ import logo from '../../logo.png'
 import  Faucet  from '../../token/Faucet.js';
 import ConferenceStatus from '../../token-conference/ConferenceStatus';
 import RSVP from '../../token-conference/RSVP';
+import AdminControls from '../../token-conference/AdminControls';
 
 class Home extends Component {
   constructor(props, context){
@@ -50,7 +51,9 @@ class Home extends Component {
               Admin Controls
             </h2>
               User is Admin: <ConferenceStatus contract="TokenConference"  method="isAdmin" methodArgs={[this.props.accounts[0],{from: this.props.accounts[0]}]} />
-            
+              <br />
+              <br />
+              <AdminControls conference="TokenConference" />
           </div>
         </div>
       </main>
