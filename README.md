@@ -34,15 +34,18 @@ npm install or yarn install
 Firstly open either Ganache GUI or Ganache-cli at port 7545.
 
 To run Ganache-cli
+
 ```yarn run testnet```
 
 To deploy the contracts, use:
+
 ```truffle migrate```
 
 
 ### Front end
 
 First start up Ganache at port 7545 running at 3 second block time,
+
 ```yarn run testnet``` 
 
 then compile the truffle contracts
@@ -73,7 +76,9 @@ camel ostrich bagel potato spaniel lettuce tomato mustard salt pepper cayenne bu
 
 ### Public Keys
 (0) 0x225ef27570c7d0e4773caee4b6bc03526b5df370
+
 (1) 0x3b1451961d6e8702be61954c02c4ae2b4199cf97
+
 (2) 0x1bb0e83842730e904063d752918b378a7c92ce2f
 
 ### Private Keys
