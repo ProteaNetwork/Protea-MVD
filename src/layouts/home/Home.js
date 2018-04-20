@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { AccountData, ContractData } from 'drizzle-react-components'
-import logo from '../../logo.png'
+import logo from '../../protea-logo-1.png'
 import  Faucet  from '../../token/Faucet.js';
 import ConferenceStatus from '../../token-conference/ConferenceStatus';
 import RSVP from '../../token-conference/RSVP';
