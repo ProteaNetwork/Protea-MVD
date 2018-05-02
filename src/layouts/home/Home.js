@@ -20,7 +20,7 @@ class Home extends Component {
             <img src={logo} alt="drizzle-logo" />
             <h1>Protea MVP</h1>
             <p>An ERC223 token with a simple faucet facility that interacts with a<br />
-            Token version of Mokoto's BlockParty</p>
+            Token version of Mskoto's BlockParty</p>
 
             <br/><br/>
           </div>

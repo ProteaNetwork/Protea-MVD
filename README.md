@@ -2,7 +2,7 @@
 
 This MVP repo presents the first iteration of the protea network. We develop a method for meetup groups and communities to create decentralized events and stake their attendance via an RSVP function that deposits ERC223 tokens into an event contract and returns them to the attendant upon successful attendance. Attendance is verified via a Proof of Attendance mechanism based on uPort.
 
-* Token version of [Mokoto's BlockParty](https://github.com/makoto/blockparty)
+* Token version of [Makoto's BlockParty](https://github.com/makoto/blockparty)
 * A token faucet to get initial tokens
 * Front end app using [Truffle's](truffleframework.com) [Drizzle Box](https://github.com/truffle-box/drizzle-box    ) 
 
