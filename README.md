@@ -1,6 +1,36 @@
-# Protea Network MVP
+# Current Status of Repo
+We are currently working towards an alpha release of the Protea Minimum Viable Dapp (MVD). The requirements for this release are still incomplete. 
 
-This MVP repo presents the first iteration of the protea network. We develop a method for meetup groups and communities to create decentralized events and stake their attendance via an RSVP function that deposits ERC223 tokens into an event contract and returns them to the attendant upon successful attendance. Attendance is verified via a Proof of Attendance mechanism based on uPort.
+Outstanding Functionalities
+* Completion of Proof of Attendance mechanism
+* Completion of Wallet Tx Interaction
+* Completion of Token Structure
+* Completion of modification to ProteaParty attendance confirm-function
+
+# Next Major Milestone 
+
+Our next major milestone will be the alpha release of our Minimum Viable Dapp (MVD), which will then be tested at various Ethereum community meetups around the world.
+
+The focus here is to deploy a Dapp that alows for the following user flows:
+
+* An organiser creates an event contract for her meetup and defines the amount of attendees
+* Community members wishing to attend stake their attendance via a meetup token
+	* During the meetup event the organizer presents a QR code that attendees can scan with their smartphone, triggering a call to the event contract to withdraw their token
+* This will also trigger proof of attendance mechanisms
+* Anyone who doesn’t attend loses their stake, which is distributed to all who did attend the event
+* Participants can thus end up with additional stake after the meetup
+
+The Dapp will rely on the following 3 core components:
+1. The events contract deployment and withdraw functions (back-end)
+2. The user interface and experience, managed via uPort and potentially Status (front-end)
+3. The ERC223 contract (the skin in the game)
+
+To find out more about how this will work, check out our [website](https://www.protea.io/)
+
+
+# Documentation on Current Repo
+
+The current repo presents the first iteration of the Protea MVD. We develop a method for meetup groups and communities to create decentralized events and stake their attendance via an RSVP function that deposits ERC223 tokens into an event contract and returns them to the attendant upon successful attendance. This includes:
 
 * Token version of [Makoto's BlockParty](https://github.com/makoto/blockparty)
 * A token faucet to get initial tokens
@@ -114,7 +144,7 @@ See also the list of [contributors](https://github.com/ProteaNetwork/Protea-MVP/
 
 ## License
 
-This project is licensed under the GNU License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 <!-- ## Acknowledgments
 
